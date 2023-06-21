@@ -5,8 +5,8 @@ function Complaint (
   {isstudent,setShowModal,user}
 ) {
     const [complaintdata , setComplaintData] = useState({});
+    const [showwarning,setshowwarning] = useState(false);
     const submitData = async()=>{
-      console.log("comlpaintdata",complaintdata);
       await fetch("http://localhost:8080/complaint/submit_complaint",{
         method:"POST",
         headers :{
@@ -14,7 +14,14 @@ function Complaint (
         },
         body : JSON.stringify(complaintdata),
       }).then((res)=>res.json()).then((data)=>{
-        console.log("submit complinnttt",data);
+        if(data.message == "failure"){
+          setshowwarning(true);
+          window.alert("Invalid data entered");
+          setComplaintData({});
+        }
+        else {
+          setShowModal(false);
+        }
       })
     }
     return (
@@ -225,12 +232,18 @@ function Complaint (
             </button>
             <button type="submit" class="btn btn-danger" onClick={()=>{
               submitData();
-              setShowModal(false);
             }}>
               Register
             </button>
           </div>
           </form>
+         {showwarning &&  <p
+          style={{
+            color:"red",
+            position:"relative",
+            bottom:"30px"
+          }}
+          >Please Enter the correct fields again !!!</p>}
       </div>
     );
 }

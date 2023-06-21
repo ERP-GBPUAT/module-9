@@ -72,7 +72,7 @@ function Aprofile() {
       })
     }
     const getfilteredComplaints = async(status,level)=>{
-      await fetch(`http://localhost:8080/complaint/get_filtered_complaintsbyid?status=${status}&level=${level}`,{
+      await fetch(`http://localhost:8080/complaint/get_filtered_complaints?status=${status}&level=${level}`,{
         method:"GET",
         headers : {
           "Content-Type":"application/json",
@@ -81,7 +81,8 @@ function Aprofile() {
         setComplaints(data.data);
       })
     }
-    const getfilteredComplaintsbylvl = async(lvl)=>{
+    const getfilteredComplaintsbylvl = async(admin)=>{
+      const lvl = admin.level;
       await fetch(`http://localhost:8080/complaint/get_complaints_by_lvl?lvl=${lvl}`,{
         method:"GET",
         headers : {
